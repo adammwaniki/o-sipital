@@ -1,5 +1,7 @@
 # lib/cli.py
 
+import sqlite3
+
 from helpers import (
     exit_program,
     list_all_patients,
@@ -22,10 +24,20 @@ from helpers import (
     add_medicine,
     update_medicine,
     delete_medicine,
+    list_patients_with_doctors,
+    assign_doctor_to_patient,
+    list_patients_with_medicines,
+    list_all_prescriptions,
+    add_prescription,
+    update_prescription,
+    delete_prescription,
 )
 
+DATABASE_PATH = 'hospital.db'
 
 def main():
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
     while True:
         menu()
         choice = input("> ")
@@ -71,9 +83,23 @@ def main():
             update_medicine()
         elif choice == "20":
             delete_medicine()
+        elif choice == '21':
+            list_patients_with_doctors()
+        elif choice == '22':
+            assign_doctor_to_patient()
+        elif choice == '23':
+            list_patients_with_medicines()
+        elif choice == '24':
+            list_all_prescriptions()
+        elif choice == '25':
+            add_prescription()
+        elif choice == '26':
+            update_prescription()
+        elif choice == '27':
+            delete_prescription()
         else:
             print("Invalid choice")
-
+    # conn.close() # this doesn't seem to be necessary
 
 def menu():
     print("\nHospital Management System")
@@ -98,7 +124,13 @@ def menu():
     print("18. Add a medicine")
     print("19. Update a medicine")
     print("20. Delete a medicine")
-
+    print("21. List patients with their assigned doctors")
+    print("22. Assign a doctor to a patient")
+    print("23. List patients with their assigned medicines")
+    print("24. List all prescriptions")
+    print("25. Add a new prescription")
+    print("26. Update a prescription")
+    print("27. Delete a prescription")
 
 if __name__ == "__main__":
     main()
