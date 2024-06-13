@@ -114,14 +114,16 @@ class Doctor:
 
     @classmethod
     def find_by_name(cls, name):
-        name = name.lower()
+        # case insensitive search with allowance for partial matches
+        name = '%' + name.lower() + '%'
         sql = """
             SELECT *
             FROM doctors
-            WHERE LOWER(first_name) = ? OR LOWER( last_name) = ?
+             WHERE LOWER(first_name) LIKE ?
+               OR LOWER(last_name) LIKE ?
         """
-        row = CURSOR.execute(sql, (name, name)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (name, name)).fetchall()
+        return [cls.instance_from_db(row) for row in rows] if rows else None
     
     def get_prescriptions(self):
         sql = """

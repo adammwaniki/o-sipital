@@ -110,14 +110,15 @@ class Medicine:
 
     @classmethod
     def find_by_name(cls, name):
-        name = name.lower()
+        # Now you can even search for medicines with partial matches
+        name = '%' + name.lower() + '%'
         sql = """
             SELECT *
             FROM medicines
-            WHERE LOWER(name) = ?
+            WHERE LOWER(name) LIKE ?
         """
-        row = CURSOR.execute(sql, (name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (name,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows] if rows else None
     
     def get_prescriptions(self):
         sql = """
