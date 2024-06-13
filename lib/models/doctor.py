@@ -114,10 +114,11 @@ class Doctor:
 
     @classmethod
     def find_by_name(cls, name):
+        name = name.lower()
         sql = """
             SELECT *
             FROM doctors
-            WHERE first_name = ? OR last_name = ?
+            WHERE LOWER(first_name) = ? OR LOWER( last_name) = ?
         """
         row = CURSOR.execute(sql, (name, name)).fetchone()
         return cls.instance_from_db(row) if row else None

@@ -123,12 +123,12 @@ def list_all_doctors():
         print(doctor)
 
 def find_doctor_by_first_name():
-    first_name = input("Enter the doctor's first name: ")
+    first_name = input("Enter the doctor's first name: ").lower()
     doctor = Doctor.find_by_name(first_name)
     print(doctor) if doctor else print(f'Doctor with first name {first_name} not found')
 
 def find_doctor_by_last_name():
-    last_name = input("Enter the doctor's last name: ")
+    last_name = input("Enter the doctor's last name: ").lower()
     doctor = Doctor.find_by_name(last_name)
     print(doctor) if doctor else print(f'Doctor with last name {last_name} not found')
 
