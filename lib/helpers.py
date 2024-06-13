@@ -1,7 +1,7 @@
 from models.doctor import Doctor
 from models.patient import Patient
 from models.medicine import Medicine
-from models.prescription import Prescription
+# from models.prescription import Prescription
 
 
 def exit_program():
@@ -175,9 +175,9 @@ def delete_doctor():
     id_ = input("Enter the doctor's id: ")
     if doctor := Doctor.find_by_id(id_):
         doctor.delete()
-        print(f'Doctor {id_} deleted')
+        print(f'Doctor ID: {id_} deleted')
     else:
-        print(f'Doctor {id_} not found')
+        print(f'Doctor ID: {id_} not found')
 
 # Helper functions for the medicines
 
@@ -245,7 +245,22 @@ def list_patients_with_medicines():
             medicines_info = "No medicines assigned"
         print(f"Patient: {patient.first_name} {patient.last_name}, Medicines: {medicines_info}")
 
-# Prescripiton helpers
+
+def assign_medicine_to_patient():
+    patient_id = int(input("Enter the patient ID: "))
+    medicine_id = int(input("Enter the medicine ID: "))
+    dosage = input("Enter the dosage: ")
+    frequency = input("Enter the frequency: ")
+    
+    patient = Patient.find_by_id(patient_id)
+    if patient:
+        patient.assign_medicine(medicine_id, dosage, frequency)
+        print(f"Medicine with ID {medicine_id} assigned to patient with ID {patient_id}.")
+    else:
+        print(f"Patient with ID {patient_id} not found.")
+
+
+"""# Prescripiton helpers
 
 def list_all_prescriptions():
     prescriptions = Prescription.get_all()
@@ -292,4 +307,4 @@ def delete_prescription():
         prescription.delete()
         print(f'Prescription {id_} deleted')
     else:
-        print(f'Prescription {id_} not found')
+        print(f'Prescription {id_} not found')"""

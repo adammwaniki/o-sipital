@@ -1,3 +1,4 @@
+# lib/init_db.py
 import sqlite3
 
 # Connect to the database (it will be created if it doesn't exist)
@@ -49,6 +50,8 @@ CREATE TABLE IF NOT EXISTS prescriptions (
     id INTEGER PRIMARY KEY,
     patient_id INTEGER,
     medicine_id INTEGER,
+    dosage TEXT,
+    frequency TEXT,
     FOREIGN KEY (patient_id) REFERENCES patients (id),
     FOREIGN KEY (medicine_id) REFERENCES medicines (id)
 )

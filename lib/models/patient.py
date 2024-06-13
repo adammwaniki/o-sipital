@@ -275,9 +275,18 @@ class Patient:
     def get_prescriptions(self):
         return Prescription.find_by_patient_id(self.id)
 
-    def get_medicines(self):
+    '''def get_medicines(self):
         prescriptions = self.get_prescriptions()
-        return [prescription.medicine for prescription in prescriptions]
+        return [prescription.medicine for prescription in prescriptions]'''
+    
+    def assign_medicine(self, medicine_id, dosage, frequency):
+        Prescription.create(self.patient_id, medicine_id, dosage, frequency)
+
+    def get_medicines(self):
+        """Return a list of medicines assigned to the patient."""
+        prescriptions = Prescription.find_by_patient_id(self.patient_id)
+        return [prescription.get_medicine() for prescription in prescriptions]
+    
 '''   def get_medicines(self):
         sql = """
             SELECT m.*
@@ -287,3 +296,5 @@ class Patient:
         """
         rows = CURSOR.execute(sql, (self.id,)).fetchall()
         return [Medicine.instance_from_db(row) for row in rows] if rows else []'''
+
+    

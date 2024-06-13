@@ -5,10 +5,9 @@ from models.__init__ import CURSOR, CONN
 class Prescription:
     all = {}
 
-    def __init__(self, id, patient_id, doctor_id, medicine_id, dosage, frequency):
-        self.id = id
+    def __init__(self, prescription_id, patient_id, medicine_id, dosage, frequency):
+        self.prescription_id = prescription_id
         self.patient_id = patient_id
-        self.doctor_id = doctor_id
         self.medicine_id = medicine_id
         self.dosage = dosage
         self.frequency = frequency
@@ -54,10 +53,15 @@ class Prescription:
         type(self).all[self.id] = self
 
     @classmethod
-    def create(cls, patient_id, doctor_id, medicine_id, dosage, frequency):
-        prescription = cls(None, patient_id, doctor_id, medicine_id, dosage, frequency)
-        prescription.save()
-        return prescription
+    def create(cls, patient_id, medicine_id, dosage, frequency):
+        sql = """
+            INSERT INTO prescriptions (patient_id, medicine_id, dosage, frequency)
+            VALUES (?, ?, ?, ?)
+        """
+        CURSOR.execute(sql, (patient_id, medicine_id, dosage, frequency))
+        CONN.commit()
+        prescription_id = CURSOR.lastrowid
+        return cls(prescription_id, patient_id, medicine_id, dosage, frequency)
 
     def update(self):
         sql = """
@@ -81,18 +85,8 @@ class Prescription:
 
     @classmethod
     def instance_from_db(cls, row):
-        id = row[0]
-        prescription = cls.all.get(id)
-        if prescription:
-            prescription.patient_id = row[1]
-            prescription.doctor_id = row[2]
-            prescription.medicine_id = row[3]
-            prescription.dosage = row[4]
-            prescription.frequency = row[5]
-        else:
-            prescription = cls(id, row[1], row[2], row[3], row[4], row[5])
-            cls.all[id] = prescription
-        return prescription
+        prescription_id, patient_id, medicine_id, dosage, frequency = row
+        return cls(prescription_id, patient_id, medicine_id, dosage, frequency)
 
     @classmethod
     def get_all(cls):
@@ -116,9 +110,11 @@ class Prescription:
     @classmethod
     def find_by_patient_id(cls, patient_id):
         sql = """
-            SELECT *
+            SELECT id, patient_id, medicine_id, dosage, frequency
             FROM prescriptions
             WHERE patient_id = ?
         """
         rows = CURSOR.execute(sql, (patient_id,)).fetchall()
         return [cls.instance_from_db(row) for row in rows] if rows else []
+
+    

@@ -1,3 +1,5 @@
+# lib/models/medicine.py
+
 from models.prescription import Prescription
 from models.__init__ import CURSOR, CONN
 
