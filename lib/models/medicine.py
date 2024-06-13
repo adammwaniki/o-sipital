@@ -110,10 +110,11 @@ class Medicine:
 
     @classmethod
     def find_by_name(cls, name):
+        name = name.lower()
         sql = """
             SELECT *
             FROM medicines
-            WHERE name = ?
+            WHERE LOWER(name) = ?
         """
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None

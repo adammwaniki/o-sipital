@@ -187,7 +187,7 @@ def list_all_medicines():
         print(medicine)
 
 def find_medicine_by_name():
-    name = input("Enter the medicine's name: ")
+    name = input("Enter the medicine's name: ").lower()
     medicine = Medicine.find_by_name(name)
     print(medicine) if medicine else print(f'Medicine with name {name} not found')
 
