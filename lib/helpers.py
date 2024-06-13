@@ -5,7 +5,7 @@ from models.medicine import Medicine
 
 
 def exit_program():
-    print("Goodbye!")
+    print("====================== Remember to take an apple a day! Goodbye! ======================")
     exit()
 
 # Helper functions for the patients
@@ -15,15 +15,15 @@ def list_all_patients():
     for patient in patients:
         print(patient)
 
-# Both name searches are case sensitive
+# Both name searches are case insensitive
 def find_patient_by_first_name():
-    first_name = input("Enter the patient's first name: ")
-    patient = Patient.find_by_name(first_name)
+    first_name = input("Enter the patient's first name: ").lower()
+    patient = Patient.find_by_name(first_name.lower())
     print(patient) if patient else print(f'Patient with first name {first_name} not found')
 
 def find_patient_by_last_name():
-    last_name = input("Enter the patient's last name: ")
-    patient = Patient.find_by_name(last_name)
+    last_name = input("Enter the patient's last name: ").lower()
+    patient = Patient.find_by_name(last_name.lower())
     print(patient) if patient else print(f'Patient with last name {last_name} not found')
 
 def find_patient_by_id():
