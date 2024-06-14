@@ -32,6 +32,7 @@ DATABASE_PATH = 'hospital.db'
 def main():
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
+    cursor.execute('PRAGMA foreign_keys = ON;')  # Remembering to enable the foreign key constraint
     while True:
         main_menu()
         main_choice = input("> ").strip().upper()

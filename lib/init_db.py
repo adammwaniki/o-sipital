@@ -5,6 +5,9 @@ import sqlite3
 conn = sqlite3.connect('hospital.db')
 cursor = conn.cursor()
 
+# Enable foreign key constraint
+cursor.execute('PRAGMA foreign_keys = ON;')
+
 # Create the patients table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS patients(
