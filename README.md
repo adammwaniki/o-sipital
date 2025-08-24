@@ -1,6 +1,6 @@
-# HOSPITAL MANAGEMENT SYSTEM (HMS)
+# O-Sipital HOSPITAL MANAGEMENT SYSTEM
 
-HMS is a CLI - based application
+O-sipital is a CLI - based application
 
 ## Description
 
